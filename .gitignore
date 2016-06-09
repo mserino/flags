@@ -1,0 +1,4 @@
+node_modules/
+electron-prebuilt
+
+*/node_modules
