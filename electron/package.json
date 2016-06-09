@@ -4,7 +4,7 @@
   "description": "FLAGS Lets Anyone Get Status",
   "main": "main.js",
   "scripts": {
-    "test": "lol"
+    "start": "electron main.js"
   },
   "repository": {
     "type": "git",
@@ -22,5 +22,8 @@
   "homepage": "https://github.com/mserino/flags#readme",
   "devDependencies": {
     "electron-prebuilt": "^1.2.2"
+  },
+  "dependencies": {
+    "menubar": "^4.1.1"
   }
 }
