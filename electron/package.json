@@ -1,0 +1,26 @@
+{
+  "name": "flags",
+  "version": "1.0.0",
+  "description": "FLAGS Lets Anyone Get Status",
+  "main": "main.js",
+  "scripts": {
+    "test": "lol"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mserino/flags.git"
+  },
+  "keywords": [
+    "flags",
+    "status"
+  ],
+  "author": "Flags Team",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mserino/flags/issues"
+  },
+  "homepage": "https://github.com/mserino/flags#readme",
+  "devDependencies": {
+    "electron-prebuilt": "^1.2.2"
+  }
+}
