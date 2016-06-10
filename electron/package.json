@@ -4,7 +4,8 @@
   "description": "FLAGS Lets Anyone Get Status",
   "main": "main.js",
   "scripts": {
-    "start": "electron main.js"
+    "start": "electron main.js",
+    "test": "lol"
   },
   "repository": {
     "type": "git",
@@ -26,6 +27,7 @@
   "dependencies": {
     "annyang": "^2.4.0",
     "electron-usb": "^0.0.11",
-    "menubar": "^4.1.1"
+    "menubar": "^4.1.1",
+    "playback": "^0.2.0"
   }
 }

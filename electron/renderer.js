@@ -1,7 +1,8 @@
 const usb = require('electron-usb')
 const annyang = require('annyang')
+const music = require('playback')
 
-var isDisabled = true
+var busy = false
 
 try {
   // Claim our endpoint on the USB
@@ -22,19 +23,19 @@ function updateIndicator(indicator) {
 
 function sendRequest(started) {
   outEndpoint.transfer(started ? '1' : '0')
-  isDisabled = !started
-  // updateIndicator(started ? 'started' : 'stopped')
+  busy = !busy
+  updateIndicator(!busy ? 'available' : 'busy')
 }
 
 function sendToggleRequest() {
-  sendRequest(isDisabled)
+  sendRequest(busy)
 }
 
 function sendStartRequest(noNotification) {
   sendRequest(true)
   if (!noNotification) {
     var notify = new Notification('Status updated', {
-      body: 'Your status has been updated to: started',
+      body: 'Your status has been updated to: ' + busy ? 'busy' : 'availabe',
       icon: 'assets/icon.png'
     })
   }
@@ -66,11 +67,24 @@ annyang.addCommands(commands)
 // Start listening. You can call this here, or attach this call to an event, button, etc.
 annyang.start()
 
+// Listeners for iTunes play and pause events
+music.on('playing', function(data) {
+  // If we aren't busy when we recieve a playing event then we trigger one to say we are
+  // Subsequent play events won't do anything since we're busy
+  if (!busy) {
+    sendRequest(true)
+  }
+})
+
+music.on('paused', function(data) {
+  // If you then pause we trigger an event to say you are not busy anymore
+  // No hiding behind those headphones!
+  if (busy) {
+    sendRequest(true)
+  }
+})
+
 // Add listeners to our two buttons
 document.getElementById('flagButtonOne').addEventListener('click', function() {
   sendStartRequest(true)
-})
-
-document.getElementById('flagButtonTwo').addEventListener('click', function() {
-  sendStopRequest(true)
 })
