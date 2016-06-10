@@ -29,14 +29,17 @@ void loop() {
     {
       digitalWrite(led, LOW);
       pos = 90;
+      myservo.write(pos);
     }
     if(incomingByte==49)
     {
       digitalWrite(led, HIGH);
-      pos = 0;
+      pos = 87;
       servoRunning = true;
+      myservo.write(pos);
+      delay(100);
+
     }
-    myservo.write(pos);
 
    }
 
@@ -48,7 +51,6 @@ void loop() {
       digitalWrite(led, LOW);
       servoRunning = false;
       myservo.write(pos);
-
     
    }
    
