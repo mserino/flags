@@ -17,7 +17,7 @@ Notification.requestPermission();
 
 function updateIndicator(indicator) {
   // Update the view with the current status
-	document.getElementById('currentSection').innerText = 'Status updated to: ' + indicator
+	document.getElementById('currentSection').innerText = 'Status: ' + indicator
 }
 
 function sendRequest(started) {
