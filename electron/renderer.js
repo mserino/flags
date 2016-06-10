@@ -36,7 +36,7 @@ function sendStartRequest(noNotification) {
     var notify = new Notification('Status updated', {
       body: 'Your status has been updated to: started',
       icon: 'assets/icon.png'
-    }
+    })
   }
 }
 
