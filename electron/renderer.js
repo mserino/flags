@@ -27,7 +27,7 @@ function sendRequest(started) {
   var index = states.indexOf(state)
 
   if (index+1 === states.length) {
-      // If we've reached the end of the list of activities we need to wrap round to the value at index 0
+    // If we've reached the end of the list of activities we need to wrap round to the value at index 0
     outEndpoint.transfer(String(1))
     state = states[0]
   } else {
