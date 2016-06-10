@@ -1,0 +1,60 @@
+body {
+	font-family: 'Helvetica', 'Arial', sans-serif;
+	margin: 0;
+}
+
+.current,
+.flags-list {
+	background-color: #3F3047;
+	color: #FFF;
+	text-align: center;
+}
+
+.current {
+	font-size: 35px;
+	line-height: 100px;
+}
+
+.buttons {
+	text-align: center;
+	font-size: 25px;
+	font-weight: bold;
+}
+
+.one,
+.two {
+	width: 50%;
+	height: 200px;
+	line-height: 200px;
+}
+
+.one {
+	background-color: #AEF78E;
+	float: left;
+}
+
+.two {
+	background-color: #FE5D26;
+	color: #FFF;
+	float: right;
+}
+
+.one:hover,
+.two:hover {
+	font-size: 35px;
+}
+
+.one:hover {
+	background-color: #81F74F;
+}
+
+.two:hover {
+	background-color: #FF490C;
+}
+
+.flags-list {
+	font-size: 20px;
+	line-height: 30px;
+	padding: 0 10px;
+	overflow: hidden;
+}
