@@ -4,6 +4,7 @@ const annyang = require('annyang')
 var isDisabled = true
 
 try {
+  // Claim our endpoint on the USB
 	var teensy = usb.findByIds(5824,1155);
 	teensy.open();
 	teensy.interfaces[1].claim()
@@ -15,6 +16,7 @@ try {
 Notification.requestPermission();
 
 function updateIndicator(indicator) {
+  // Update the view with the current status
 	document.getElementById('currentSection').innerText = 'Status updated to: ' + indicator
 }
 
@@ -31,21 +33,27 @@ function sendToggleRequest() {
 function sendStartRequest(noNotification) {
   sendRequest(true)
   if (!noNotification) {
-    var notify = new Notification('Status updated', { body: 'Your status has been updated to: started', icon: 'assets/icon.png' });
+    var notify = new Notification('Status updated', {
+      body: 'Your status has been updated to: started',
+      icon: 'assets/icon.png'
+    }
   }
 }
 
 function sendStopRequest(noNotification) {
   sendRequest(false)
   if (!noNotification) {
-    var notify = new Notification('Status updated', { body: 'Your status has been updated to: stopped', icon: 'assets/icon.png' });
+    var notify = new Notification('Status updated', {
+      body: 'Your status has been updated to: stopped',
+      icon: 'assets/icon.png'
+    })
   }
 }
 
 // Turn on debug messages
 annyang.debug()
 
-// Define sample command
+// Define commands
 var commands = {
 	'flags start': sendStartRequest,
 	'flags stop': sendStopRequest,
@@ -58,5 +66,11 @@ annyang.addCommands(commands)
 // Start listening. You can call this here, or attach this call to an event, button, etc.
 annyang.start()
 
-document.getElementById('flagButtonOne').addEventListener('click', function() { sendStartRequest(true) })
-document.getElementById('flagButtonTwo').addEventListener('click', function() { sendStopRequest(true) })
+// Add listeners to our two buttons
+document.getElementById('flagButtonOne').addEventListener('click', function() {
+  sendStartRequest(true)
+})
+
+document.getElementById('flagButtonTwo').addEventListener('click', function() {
+  sendStopRequest(true)
+})
