@@ -12,8 +12,10 @@ try {
   alert('Oops. Something went wrong. Please try reconnecting the device and restarting the application. Idiot.')
 }
 
+Notification.requestPermission();
+
 function updateIndicator(indicator) {
-  document.getElementById('status').innerText = 'Status updated to:' + indicator
+  document.getElementById('status').innerText = 'Status updated to: ' + indicator
 }
 
 function sendToggleRequest() {
@@ -25,12 +27,14 @@ function sendToggleRequest() {
 function sendStartRequest() {
   outEndpoint.transfer('1')
   isDisabled = false
+  var notify = new Notification('Status updated', { body: 'Your status has been updated to: started', icon: 'assets/icon.png' });
   updateIndicator('started')
 }
 
 function sendStopRequest() {
   outEndpoint.transfer('0')
   isDisabled = true
+  var notify = new Notification('Status updated', { body: 'Your status has been updated to: stopped', icon: 'assets/icon.png' });
   updateIndicator('stopped')
 }
 
