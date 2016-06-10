@@ -27,6 +27,7 @@ function sendRequest(started) {
   var index = states.indexOf(state)
 
   if (index+1 === states.length) {
+      // If we've reached the end of the list of activities we need to wrap round to the value at index 0
     outEndpoint.transfer(String(1))
     state = states[0]
   } else {
@@ -49,23 +50,8 @@ function sendSpecific(index) {
   updateIndicator(state)
 }
 
-function sendToggleRequest() {
-  sendRequest(busy)
-}
-
 function sendStartRequest(noNotification) {
   sendRequest(true)
-
-  if (!noNotification) {
-    var notify = new Notification('Status updated', {
-      body: 'Your status has been updated',
-      icon: 'assets/icon.png'
-    })
-  }
-}
-
-function sendStopRequest(noNotification) {
-  sendRequest(false)
 
   if (!noNotification) {
     var notify = new Notification('Status updated', {
@@ -81,7 +67,6 @@ annyang.debug()
 // Define commands
 var commands = {
 	'flags start': sendStartRequest,
-	'flags stop': sendStopRequest,
 	'flags change': sendStartRequest
 }
 
