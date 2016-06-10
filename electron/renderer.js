@@ -2,6 +2,7 @@ const usb = require('electron-usb')
 const annyang = require('annyang')
 const music = require('playback')
 
+// We're assuming that when you start the app the available flag is pointing up
 var busy = false
 
 try {
@@ -35,7 +36,7 @@ function sendStartRequest(noNotification) {
   sendRequest(true)
   if (!noNotification) {
     var notify = new Notification('Status updated', {
-      body: 'Your status has been updated to: ' + busy ? 'busy' : 'availabe',
+      body: 'Your status has been updated',
       icon: 'assets/icon.png'
     })
   }
@@ -45,7 +46,7 @@ function sendStopRequest(noNotification) {
   sendRequest(false)
   if (!noNotification) {
     var notify = new Notification('Status updated', {
-      body: 'Your status has been updated to: stopped',
+      body: 'Your status has been updated',
       icon: 'assets/icon.png'
     })
   }
