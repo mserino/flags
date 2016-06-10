@@ -3,7 +3,7 @@ const annyang = require('annyang')
 const music = require('playback')
 
 // We're assuming that when you start the app the available flag is pointing up
-var states = ['available', 'busy', 'riding a donkey', 'music']
+var states = ['available', 'coffee', 'in the zone', 'music', 'idle', 'do not disturb', 'food', 'in a call']
 var state = 'available'
 
 try {
@@ -27,10 +27,10 @@ function sendRequest(started) {
   var index = states.indexOf(state)
 
   if (index+1 === states.length) {
-    outEndpoint.transfer("0")
+    outEndpoint.transfer(String(1))
     state = states[0]
   } else {
-    outEndpoint.transfer(String(index+1))
+    outEndpoint.transfer(String(1))
     state = states[index+1]
   }
 
@@ -38,7 +38,12 @@ function sendRequest(started) {
 }
 
 function sendSpecific(index) {
-  outEndpoint.transfer(String(index))
+	var shiftBy = index - states.indexOf(state);
+	if(shiftBy<0)
+	{
+		shiftBy = shiftBy + states.length
+	}
+  outEndpoint.transfer(String(shiftBy))
   state = states[index]
   updateIndicator(state)
 }
