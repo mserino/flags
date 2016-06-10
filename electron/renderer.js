@@ -1,7 +1,7 @@
 const usb = require('electron-usb')
 const annyang = require('annyang')
 
-var count = true
+var isDisabled = true
 
 try {
 	var teensy = usb.findByIds(5824,1155);
@@ -12,17 +12,26 @@ try {
 	alert('Oops. Something went wrong. Please try reconnecting the device and restarting the application. Idiot.')
 }
 
+function updateIndicator(indicator) {
+	document.getElementById('currentSection').innerText = 'Status updated to:' + indicator
+}
+
 function sendToggleRequest() {
-	count ? outEndpoint.transfer('1') : outEndpoint.transfer('0')
-	count = !count
+	isDisabled ? outEndpoint.transfer('1') : outEndpoint.transfer('0')
+	isDisabled = !isDisabled
+	updateIndicator(isDisabled ? 'stopped' : 'started')
 }
 
 function sendStartRequest() {
-	count = outEndpoint.transfer('1')
+	outEndpoint.transfer('1')
+	isDisabled = false
+	updateIndicator('started')
 }
 
 function sendStopRequest() {
-	count = outEndpoint.transfer('0')
+	outEndpoint.transfer('0')
+	isDisabled = true
+	updateIndicator('stopped')
 }
 
 // Turn on debug messages
