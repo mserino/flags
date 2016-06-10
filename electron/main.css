@@ -31,6 +31,7 @@ body {
 .one {
 	background-color: #AEF78E;
 	float: left;
+	width: 100%;
 }
 
 .two {

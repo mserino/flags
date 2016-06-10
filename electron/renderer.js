@@ -23,7 +23,7 @@ function updateIndicator(indicator) {
 function sendRequest(started) {
   outEndpoint.transfer(started ? '1' : '0')
   isDisabled = !started
-  updateIndicator(started ? 'started' : 'stopped')
+  // updateIndicator(started ? 'started' : 'stopped')
 }
 
 function sendToggleRequest() {
