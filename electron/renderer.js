@@ -4,10 +4,10 @@ const annyang = require('annyang')
 var count = true
 
 try {
-  const teensy = usb.findByIds(5824,1155)
+  var teensy = usb.findByIds(5824,1155)
   teensy.open()
   teensy.interfaces[1].claim()
-  const outEndpoint = teensy.interfaces[1].endpoint(3)
+  var outEndpoint = teensy.interfaces[1].endpoint(3)
 } catch(err) {
   alert('Oops. Something went wrong. Please try reconnecting the device and restarting the application. Idiot.')
 }
