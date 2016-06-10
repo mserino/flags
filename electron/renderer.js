@@ -8,8 +8,8 @@ var state = 'available'
 
 try {
   // Claim our endpoint on the USB
-	var teensy = usb.findByIds(5824,1155);
-	teensy.open();
+	var teensy = usb.findByIds(5824, 1155)
+	teensy.open()
 	teensy.interfaces[1].claim()
 	var outEndpoint = teensy.interfaces[1].endpoint(3)
 } catch(err) {
@@ -33,11 +33,14 @@ function sendRequest(started) {
     outEndpoint.transfer(String(index+1))
     state = states[index+1]
   }
+
+  updateIndicator(state)
 }
 
 function sendSpecific(index) {
   outEndpoint.transfer(String(index))
   state = states[index]
+  updateIndicator(state)
 }
 
 function sendToggleRequest() {
