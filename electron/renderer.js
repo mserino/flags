@@ -12,19 +12,26 @@ try {
   alert('Oops. Something went wrong. Please try reconnecting the device and restarting the application. Idiot.')
 }
 
+function updateIndicator(indicator) {
+  document.getElementById('status').innerText = 'Status updated to:' + indicator
+}
+
 function sendToggleRequest() {
   isDisabled ? outEndpoint.transfer('1') : outEndpoint.transfer('0')
 	isDisabled = !isDisabled
+  updateIndicator(isDisabled ? 'stopped' : 'started')
 }
 
 function sendStartRequest() {
-  isDisabled = false
   outEndpoint.transfer('1')
+  isDisabled = false
+  updateIndicator('started')
 }
 
 function sendStopRequest() {
-  isDisabled = true
   outEndpoint.transfer('0')
+  isDisabled = true
+  updateIndicator('stopped')
 }
 
 // Turn on debug messages
