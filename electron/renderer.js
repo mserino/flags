@@ -30,9 +30,9 @@ annyang.debug()
 
 // Define sample command
 var commands = {
-  'hello': sendStartRequest,
-  'bye bye': sendStopRequest,
-  'change': sendToggleRequest
+  'flags start': sendStartRequest,
+  'flags stop': sendStopRequest,
+  'flags change': sendToggleRequest
 }
 
 // Add our commands to annyang
