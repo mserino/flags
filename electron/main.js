@@ -1,16 +1,17 @@
-const electron = require('electron')
+const menubar = require('menubar');
+const electron = require('electron');
 // const usb = require('electron-usb')
-const menubar = require('menubar')
 
 // Module to control application life.
-const app = electron.app
+const app = electron.app;
+
 // Module to create native browser window.
-const BrowserWindow = electron.BrowserWindow
+const BrowserWindow = electron.BrowserWindow;
 
-const mb = menubar()
+const mb = menubar();
 
-mb.on('ready', function ready () {
-  console.log('app is ready')
+mb.on('ready', function ready() {
+  console.log('app is ready');
   //console.log(usb.getDeviceList());
  //  var teensy = usb.findByIds(5824,1155);
  //  teensy.open();
@@ -29,5 +30,3 @@ mb.on('ready', function ready () {
  //  outEndpoint.transfer('1')
   // your app code here
 })
-
-
