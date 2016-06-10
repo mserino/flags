@@ -12,9 +12,17 @@ try {
   alert('Oops. Something went wrong. Please try reconnecting the device and restarting the application. Idiot.')
 }
 
-function sendRequest() {
+function sendToggleRequest() {
   count ? outEndpoint.transfer('1') : outEndpoint.transfer('0')
 	count = !count
+}
+
+function sendStartRequest() {
+  count = outEndpoint.transfer('1')
+}
+
+function sendStopRequest() {
+  count = outEndpoint.transfer('0')
 }
 
 // Turn on debug messages
@@ -22,7 +30,9 @@ annyang.debug()
 
 // Define sample command
 var commands = {
-  'hello': sendRequest
+  'hello': sendStartRequest,
+  'bye bye': sendStopRequest,
+  'change': sendToggleRequest
 }
 
 // Add our commands to annyang
@@ -31,4 +41,4 @@ annyang.addCommands(commands)
 // Start listening. You can call this here, or attach this call to an event, button, etc.
 annyang.start()
 
-document.getElementById('flagbutton').addEventListener('click', sendRequest)
+document.getElementById('flagbutton').addEventListener('click', sendToggleRequest)
