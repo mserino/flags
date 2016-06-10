@@ -15,31 +15,31 @@ try {
 Notification.requestPermission();
 
 function updateIndicator(indicator) {
-	document.getElementById('currentSection').innerText = 'Status updated to:' + indicator
+	document.getElementById('currentSection').innerText = 'Status updated to: ' + indicator
+}
+
+function sendRequest(started) {
+  outEndpoint.transfer(started ? '1' : '0')
+  isDisabled = !started
+  updateIndicator(started ? 'started' : 'stopped')
 }
 
 function sendToggleRequest() {
-	isDisabled ? outEndpoint.transfer('1') : outEndpoint.transfer('0')
-	isDisabled = !isDisabled
-	updateIndicator(isDisabled ? 'stopped' : 'started')
+  sendRequest(isDisabled)
 }
 
 function sendStartRequest(noNotification) {
-  outEndpoint.transfer('1')
-  isDisabled = false
+  sendRequest(true)
   if (!noNotification) {
     var notify = new Notification('Status updated', { body: 'Your status has been updated to: started', icon: 'assets/icon.png' });
   }
-  updateIndicator('started')
 }
 
 function sendStopRequest(noNotification) {
-  outEndpoint.transfer('0')
-  isDisabled = true
+  sendRequest(false)
   if (!noNotification) {
     var notify = new Notification('Status updated', { body: 'Your status has been updated to: stopped', icon: 'assets/icon.png' });
   }
-  updateIndicator('stopped')
 }
 
 // Turn on debug messages
