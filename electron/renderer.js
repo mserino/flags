@@ -3,7 +3,8 @@ const annyang = require('annyang')
 const music = require('playback')
 
 // We're assuming that when you start the app the available flag is pointing up
-var busy = false
+var states = ['available', 'busy', 'riding a donkey', 'music']
+var state = 'available'
 
 try {
   // Claim our endpoint on the USB
@@ -23,9 +24,20 @@ function updateIndicator(indicator) {
 }
 
 function sendRequest(started) {
-  outEndpoint.transfer(started ? '1' : '0')
-  busy = !busy
-  updateIndicator(!busy ? 'available' : 'busy')
+  var index = states.indexOf(state)
+
+  if (index+1 === states.length) {
+    outEndpoint.transfer("0")
+    state = states[0]
+  } else {
+    outEndpoint.transfer(String(index+1))
+    state = states[index+1]
+  }
+}
+
+function sendSpecific(index) {
+  outEndpoint.transfer(String(index))
+  state = states[index]
 }
 
 function sendToggleRequest() {
@@ -65,27 +77,27 @@ var commands = {
 // Add our commands to annyang
 annyang.addCommands(commands)
 
-// Start listening. You can call this here, or attach this call to an event, button, etc.
+// Start listening
 annyang.start()
 
 // Listeners for iTunes play and pause events
 music.on('playing', function(data) {
   // If we aren't busy when we recieve a playing event then we trigger one to say we are
   // Subsequent play events won't do anything since we're busy
-  if (!busy) {
-    sendRequest(true)
+  if (state !== 'music') {
+    sendSpecific(states.indexOf('music'))
   }
 })
 
 music.on('paused', function(data) {
   // If you then pause we trigger an event to say you are not busy anymore
   // No hiding behind those headphones!
-  if (busy) {
-    sendRequest(true)
+  if (state === 'music') {
+    sendSpecific(states.indexOf('available'))
   }
 })
 
-// Add listeners to our two buttons
+// Add listener to our button
 document.getElementById('flagButtonOne').addEventListener('click', function() {
   sendStartRequest(true)
 })
