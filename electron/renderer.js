@@ -16,7 +16,7 @@ try {
 	alert('Oops. Something went wrong. Please try reconnecting the device and restarting the application. Idiot.')
 }
 
-Notification.requestPermission();
+Notification.requestPermission()
 
 function updateIndicator(indicator) {
   // Update the view with the current status
@@ -38,11 +38,12 @@ function sendRequest(started) {
 }
 
 function sendSpecific(index) {
-	var shiftBy = index - states.indexOf(state);
-	if(shiftBy<0)
-	{
+	var shiftBy = index - states.indexOf(state)
+
+	if (shiftBy < 0) {
 		shiftBy = shiftBy + states.length
 	}
+
   outEndpoint.transfer(String(shiftBy))
   state = states[index]
   updateIndicator(state)
@@ -54,6 +55,7 @@ function sendToggleRequest() {
 
 function sendStartRequest(noNotification) {
   sendRequest(true)
+
   if (!noNotification) {
     var notify = new Notification('Status updated', {
       body: 'Your status has been updated',
@@ -64,6 +66,7 @@ function sendStartRequest(noNotification) {
 
 function sendStopRequest(noNotification) {
   sendRequest(false)
+
   if (!noNotification) {
     var notify = new Notification('Status updated', {
       body: 'Your status has been updated',
