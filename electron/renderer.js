@@ -57,7 +57,7 @@ annyang.debug()
 var commands = {
 	'flags start': sendStartRequest,
 	'flags stop': sendStopRequest,
-	'flags change': sendToggleRequest
+	'flags change': sendStartRequest
 }
 
 // Add our commands to annyang
