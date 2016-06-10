@@ -1,7 +1,7 @@
 const usb = require('electron-usb')
 const annyang = require('annyang')
 
-var count = true
+var isDisabled = true
 
 try {
   var teensy = usb.findByIds(5824,1155)
@@ -13,16 +13,18 @@ try {
 }
 
 function sendToggleRequest() {
-  count ? outEndpoint.transfer('1') : outEndpoint.transfer('0')
-	count = !count
+  isDisabled ? outEndpoint.transfer('1') : outEndpoint.transfer('0')
+	isDisabled = !isDisabled
 }
 
 function sendStartRequest() {
-  count = outEndpoint.transfer('1')
+  isDisabled = false
+  outEndpoint.transfer('1')
 }
 
 function sendStopRequest() {
-  count = outEndpoint.transfer('0')
+  isDisabled = true
+  outEndpoint.transfer('0')
 }
 
 // Turn on debug messages
