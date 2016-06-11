@@ -13,7 +13,7 @@ try {
 	teensy.interfaces[1].claim()
 	var outEndpoint = teensy.interfaces[1].endpoint(3)
 } catch(err) {
-	alert('Oops. Something went wrong. Please try reconnecting the device and restarting the application. Idiot.')
+	alert('Oops. Something went wrong. Please try reconnecting the device and restarting the application. Idiot.\n' + err)
 }
 
 Notification.requestPermission()
