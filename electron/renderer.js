@@ -109,3 +109,35 @@ music.on('paused', function(data) {
 document.getElementById('flagButtonOne').addEventListener('click', function() {
   sendStartRequest(true)
 })
+
+document.getElementById('flag_available').addEventListener('click', function() {
+  sendSpecific(0)
+})
+
+document.getElementById('flag_coffee').addEventListener('click', function() {
+  sendSpecific(1)
+})
+
+document.getElementById('flag_zone').addEventListener('click', function() {
+  sendSpecific(2)
+})
+
+document.getElementById('flag_music').addEventListener('click', function() {
+  sendSpecific(3)
+})
+
+document.getElementById('flag_idle').addEventListener('click', function() {
+  sendSpecific(4)
+})
+
+document.getElementById('flag_dnd').addEventListener('click', function() {
+  sendSpecific(5)
+})
+
+document.getElementById('flag_food').addEventListener('click', function() {
+  sendSpecific(6)
+})
+
+document.getElementById('flag_call').addEventListener('click', function() {
+  sendSpecific(7)
+})

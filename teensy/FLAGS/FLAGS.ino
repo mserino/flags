@@ -34,7 +34,7 @@ void loop() {
       servoRunning = true;
       skipCounter = incomingByte;
       myservo.write(pos);
-      delay(100);
+      delay(150);
     }
 
 
@@ -70,7 +70,7 @@ void loop() {
         servoRunning = false;
         myservo.write(pos);
       }
-      delay(100);
+      delay(150);
     
    }
    
