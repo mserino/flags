@@ -1,5 +1,5 @@
 const usb = require('electron-usb')
-const annyang = require('annyang')
+//const annyang = require('annyang')
 const music = require('playback')
 
 // We're assuming that when you start the app the available flag is pointing up
@@ -73,7 +73,7 @@ function sendStopRequest(noNotification) {
 }
 
 // Turn on debug messages
-annyang.debug()
+//annyang.debug()
 
 // Define commands
 var commands = {
@@ -83,10 +83,10 @@ var commands = {
 }
 
 // Add our commands to annyang
-annyang.addCommands(commands)
+//annyang.addCommands(commands)
 
 // Start listening
-annyang.start()
+//annyang.start()
 
 // Listeners for iTunes play and pause events
 music.on('playing', function(data) {
