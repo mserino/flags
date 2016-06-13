@@ -1,14 +1,15 @@
 const usb = require('electron-usb')
-const annyang = require('annyang')
+//const annyang = require('annyang')
 const music = require('playback')
 
 // We're assuming that when you start the app the available flag is pointing up
-var busy = false
+var states = ['available', 'coffee', 'in the zone', 'music', 'idle', 'do not disturb', 'food', 'in a call']
+var state = 'available'
 
 try {
   // Claim our endpoint on the USB
-	var teensy = usb.findByIds(5824,1155);
-	teensy.open();
+	var teensy = usb.findByIds(5824, 1155)
+	teensy.open()
 	teensy.interfaces[1].claim()
 	var outEndpoint = teensy.interfaces[1].endpoint(3)
 } catch(err) {
@@ -23,9 +24,28 @@ function updateIndicator(indicator) {
 }
 
 function sendRequest(started) {
-  outEndpoint.transfer(started ? '1' : '0')
-  busy = !busy
-  updateIndicator(!busy ? 'available' : 'busy')
+  var index = states.indexOf(state)
+
+  if (index+1 === states.length) {
+    outEndpoint.transfer(String(1))
+    state = states[0]
+  } else {
+    outEndpoint.transfer(String(1))
+    state = states[index+1]
+  }
+
+  updateIndicator(state)
+}
+
+function sendSpecific(index) {
+	var shiftBy = index - states.indexOf(state);
+	if(shiftBy<0)
+	{
+		shiftBy = shiftBy + states.length
+	}
+  outEndpoint.transfer(String(shiftBy))
+  state = states[index]
+  updateIndicator(state)
 }
 
 function sendToggleRequest() {
@@ -53,7 +73,7 @@ function sendStopRequest(noNotification) {
 }
 
 // Turn on debug messages
-annyang.debug()
+//annyang.debug()
 
 // Define commands
 var commands = {
@@ -63,29 +83,61 @@ var commands = {
 }
 
 // Add our commands to annyang
-annyang.addCommands(commands)
+//annyang.addCommands(commands)
 
-// Start listening. You can call this here, or attach this call to an event, button, etc.
-annyang.start()
+// Start listening
+//annyang.start()
 
 // Listeners for iTunes play and pause events
 music.on('playing', function(data) {
   // If we aren't busy when we recieve a playing event then we trigger one to say we are
   // Subsequent play events won't do anything since we're busy
-  if (!busy) {
-    sendRequest(true)
+  if (state !== 'music') {
+    sendSpecific(states.indexOf('music'))
   }
 })
 
 music.on('paused', function(data) {
   // If you then pause we trigger an event to say you are not busy anymore
   // No hiding behind those headphones!
-  if (busy) {
-    sendRequest(true)
+  if (state === 'music') {
+    sendSpecific(states.indexOf('available'))
   }
 })
 
-// Add listeners to our two buttons
+// Add listener to our button
 document.getElementById('flagButtonOne').addEventListener('click', function() {
   sendStartRequest(true)
+})
+
+document.getElementById('flag_available').addEventListener('click', function() {
+  sendSpecific(0)
+})
+
+document.getElementById('flag_coffee').addEventListener('click', function() {
+  sendSpecific(1)
+})
+
+document.getElementById('flag_zone').addEventListener('click', function() {
+  sendSpecific(2)
+})
+
+document.getElementById('flag_music').addEventListener('click', function() {
+  sendSpecific(3)
+})
+
+document.getElementById('flag_idle').addEventListener('click', function() {
+  sendSpecific(4)
+})
+
+document.getElementById('flag_dnd').addEventListener('click', function() {
+  sendSpecific(5)
+})
+
+document.getElementById('flag_food').addEventListener('click', function() {
+  sendSpecific(6)
+})
+
+document.getElementById('flag_call').addEventListener('click', function() {
+  sendSpecific(7)
 })

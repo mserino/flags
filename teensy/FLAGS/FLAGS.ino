@@ -8,6 +8,8 @@ bool servoRunning = false;
 const int led = LED_BUILTIN;
 const int reflectiveLED = 17;
 
+int skipCounter = 0;
+
 
 //int pos = 0;
 
@@ -23,23 +25,35 @@ void setup() {
 
 void loop() {
    if (Serial.available()) {
-    int incomingByte = Serial.read();
+    int incomingByte = Serial.read()-48;
     Serial.println("Recieved "+ String(incomingByte));
-    if(incomingByte==48)
-    {
-      digitalWrite(led, LOW);
-      pos = 90;
-      myservo.write(pos);
-    }
-    if(incomingByte==49)
+    if(incomingByte>0)
     {
       digitalWrite(led, HIGH);
       pos = 87;
       servoRunning = true;
+      skipCounter = incomingByte;
       myservo.write(pos);
-      delay(100);
-
+      delay(150);
     }
+
+
+//    
+//    if(incomingByte==48)
+//    {
+//      digitalWrite(led, LOW);
+//      pos = 90;
+//      myservo.write(pos);
+//    }
+//    if(incomingByte==49)
+//    {
+//      digitalWrite(led, HIGH);
+//      pos = 87;
+//      servoRunning = true;
+//      myservo.write(pos);
+//      delay(100);
+//
+//    }
 
    }
 
@@ -47,26 +61,20 @@ void loop() {
 
    if(servoRunning && lightLevel < 800)
    {
-      pos = 90;
-      digitalWrite(led, LOW);
-      servoRunning = false;
-      myservo.write(pos);
+      skipCounter = skipCounter -1;
+
+      if(skipCounter<1)
+      {
+         pos = 90;
+        digitalWrite(led, LOW);
+        servoRunning = false;
+        myservo.write(pos);
+      }
+      delay(150);
     
    }
    
  
 }
-
-//void loop() {
-//  for (pos = 0; pos <= 180; pos += 1) { // goes from 0 degrees to 180 degrees
-//    // in steps of 1 deg  ree
-//    myservo.write(pos);              // tell servo to go to position in variable 'pos'
-//    delay(1500);                       // waits 15ms for the servo to reach the position
-//  }
-//  for (pos = 180; pos >= 0; pos -= 1) { // goes from 180 degrees to 0 degrees
-//    myservo.write(pos);              // tell servo to go to position in variable 'pos'
-//    delay(1500);                       // waits 15ms for the servo to reach the position
-//  }
-//}
 
 
